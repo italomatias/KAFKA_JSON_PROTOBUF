@@ -39,6 +39,8 @@ public class KafkaJsonService {
             log.error("ERRO AO ENVAR MENSAGEM.",e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getCause().getMessage());
         }
-        return ResponseEntity.ok().body("MENSAGEM ENVIADO COM SUCESSO AO KAFKA.");
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body("MENSAGEM CRIADA COM SUCESSO E ENCAMINHADA AO KAFKA.");
     }
 }
