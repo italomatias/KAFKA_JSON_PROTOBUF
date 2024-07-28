@@ -1,11 +1,11 @@
 package com.italo.kafkawithobjects.resources;
 
 import com.italo.kafkawithobjects.model.Bordero;
+import com.italo.kafkawithobjects.protobuf.BorderoProto;
 import com.italo.kafkawithobjects.service.KafkaJsonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import protoBordero.BorderoProto;
 
 
 @RestController
@@ -29,6 +29,4 @@ public class Rest {
                 .setTipoPessoa(BorderoProto.TipoPessoa.FISICA)
                 .build();
     }
-
-
 }

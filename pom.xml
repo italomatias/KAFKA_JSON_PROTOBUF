@@ -92,11 +92,10 @@
                             <inputDirectories>
                                 <include>src/main/java/com/italo/kafkawithobjects/protobuf</include>
                             </inputDirectories>
-                            <!-- LOCAL DESTINO DAS CLASSES GERADAS PELO PROTOC -->
+                            <!-- LOCAL DESTINO DAS CLASSES GERADAS PELO PROTOC        -->
                             <outputDirectory>
-                                ${project.build.directory}/generated-sources/protobuf/src/main
+                                ${project.build.directory}/generated-sources/protobuf
                             </outputDirectory>
-
                         </configuration>
                     </execution>
                 </executions>

@@ -1,9 +1,8 @@
 syntax = "proto3";
 package protoBordero;
 
-/* NAO UTILIZADO POIS AUTOMATIZEI PROCESSO DE GERACAO DE ARQUIVO COM PLUGUIN */
-/* LOCAL ONDE SERA GERADO A CLASSE CASO GERE NA MAO USANDO PROTOC */
-//option java_package = "com.italo.kafkawithobjects.protobuf";
+/* NOME DO PACOTE */
+option java_package = "com.italo.kafkawithobjects.protobuf";
 
 /* NOME DA CLASSE GERADA */
 option java_outer_classname = "BorderoProto";
