@@ -4,10 +4,9 @@ import com.italo.kafkawithobjects.model.Bordero;
 import com.italo.kafkawithobjects.service.KafkaJsonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import protoBordero.BorderoProto;
+
 
 @RestController
 @RequestMapping("/send")
@@ -20,4 +19,16 @@ public class Rest {
     public ResponseEntity<String> json (@RequestBody Bordero request){
         return kafkaJsonService.sendMessage(request);
     }
+
+    @GetMapping(value="/protoget", produces = "application/x-protobuf")
+    public BorderoProto.Bordero protoget (){
+        return BorderoProto.Bordero.newBuilder()
+                .setId(1)
+                .setNumBordero("999999")
+                .setDataOp("28/07/2024")
+                .setTipoPessoa(BorderoProto.TipoPessoa.FISICA)
+                .build();
+    }
+
+
 }

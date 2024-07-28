@@ -1,0 +1,28 @@
+syntax = "proto3";
+package protoBordero;
+
+/* NAO UTILIZADO POIS AUTOMATIZEI PROCESSO DE GERACAO DE ARQUIVO COM PLUGUIN */
+/* LOCAL ONDE SERA GERADO A CLASSE CASO GERE NA MAO USANDO PROTOC */
+//option java_package = "com.italo.kafkawithobjects.protobuf";
+
+/* NOME DA CLASSE GERADA */
+option java_outer_classname = "BorderoProto";
+
+message Bordero {
+  int32 id = 1;
+  string num_bordero = 2;
+  string data_op = 3;
+  TipoPessoa tipo_pessoa = 4;
+  repeated Parcela parcela = 5;
+}
+message Parcela {
+  int32 id = 1;
+  string vencimento = 2;
+  float valor = 3;
+  string email = 4;
+}
+
+enum TipoPessoa {
+  FISICA = 0;
+  JURIDICA = 1;
+}
