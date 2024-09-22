@@ -18,6 +18,7 @@ import static com.italo.kafkawithobjects.resources.Constants.JSON_TOPIC;
 public class KafkaJsonService {
 
     private final KafkaTemplate<String, Serializable> template;
+
     public ResponseEntity<String> sendMessage(Bordero bordero) {
 
         try {

@@ -29,6 +29,14 @@
     <properties>
         <java.version>17</java.version>
     </properties>
+    <!-- REPOSITORIO PARA DEPENCIAS DO KAFKA SERIALIZER -->
+    <repositories>
+        <repository>
+            <id>io.confluent</id>
+            <name>Repo Confluent.io</name>
+            <url>https://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -38,11 +46,9 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,13 +63,67 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.11.4</version>
+            <version>3.25.3</version>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-protobuf-serializer</artifactId>
+            <version>7.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.6.2</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.6.2</version>
+                        </path>
+                        <path>
+                            <!-- Add your SPI implementation. -->
+                            <groupId>no.entur.mapstruct.spi</groupId>
+                            <artifactId>protobuf-spi-impl</artifactId>
+                            <version>1.45</version>
+                            <!--
+                             In real life, this should be a fixed version from a different
+                            reactor project and not be part of the same multi-module project.
+                             Maven wouldn't be able to consider that in the build-order calculation
+                            and might pull in the spi-impl from a previous build (especially
+                            tricky in multi-threaded builds).
+                             For Eclipse, there would be similar problems, as it can't reference
+                            build artifacts of workspace projects in the processor classpath but
+                            only jar-files (in this case from the local M2-repo cache).
+                            -->
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.22</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

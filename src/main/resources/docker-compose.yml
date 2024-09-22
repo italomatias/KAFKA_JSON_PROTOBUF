@@ -3,6 +3,10 @@ version: '3'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
     networks:
       - broker-kafka
     environment:
@@ -32,9 +36,25 @@ services:
     depends_on:
       - kafka
     ports:
-      - "19000:9000"
+      - "9000:9000"
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:6.0.0
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - zookeeper
+      - kafka
+      - kafdrop
+    ports:
+      - "8081:8081"
+    networks:
+      - broker-kafka
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
 
 networks:
   broker-kafka:

@@ -10,6 +10,7 @@ import org.springframework.kafka.core.KafkaAdmin;
 import java.util.HashMap;
 
 import static com.italo.kafkawithobjects.resources.Constants.JSON_TOPIC;
+import static com.italo.kafkawithobjects.resources.Constants.PROTO_TOPIC;
 
 // CLASSE APENAS PARA CRIAR O TOPICO NO KAFKA
 
@@ -27,9 +28,18 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaAdmin.NewTopics newTopic(){
+    public KafkaAdmin.NewTopics newTopicJson(){
         return new KafkaAdmin.NewTopics(
                 TopicBuilder.name(JSON_TOPIC)
+                        .partitions(2)
+                        .replicas(1)
+                        .build());
+    }
+
+    @Bean
+    public KafkaAdmin.NewTopics newTopicProto(){
+        return new KafkaAdmin.NewTopics(
+                TopicBuilder.name(PROTO_TOPIC)
                         .partitions(2)
                         .replicas(1)
                         .build());
