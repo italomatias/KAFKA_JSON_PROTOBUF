@@ -14,5 +14,4 @@ public class Bordero implements Serializable {
     private BigDecimal valor;
     private Date dataOperacao;
     private List<Itens> itens;
-
 }

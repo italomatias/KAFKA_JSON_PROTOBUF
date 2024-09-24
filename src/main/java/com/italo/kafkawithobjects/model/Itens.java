@@ -9,7 +9,7 @@ import java.util.Date;
 public class Itens {
 
     private String parcela;
-    private BigDecimal valor;
+    private BigDecimal valorparcela;
     private Date vencimento;
 
 }

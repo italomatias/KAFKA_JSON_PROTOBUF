@@ -9,6 +9,13 @@ option java_outer_classname = "BorderoProto";
 
 message Bordero {
   string numbordero = 1;
-  float valor = 2;
+  float valortotal = 2;
   string dataop = 3;
+  repeated Parcela parcela = 4;
+}
+
+message Parcela {
+  int32 parcela = 1;
+  float valorparcela = 2;
+  string dataVencimento = 3;
 }
