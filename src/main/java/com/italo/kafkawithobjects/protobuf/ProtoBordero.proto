@@ -17,5 +17,5 @@ message Bordero {
 message Parcela {
   int32 parcela = 1;
   float valorparcela = 2;
-  string dataVencimento = 3;
+  string datavencimento = 3;
 }

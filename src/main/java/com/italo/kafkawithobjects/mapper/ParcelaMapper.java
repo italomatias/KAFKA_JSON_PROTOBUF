@@ -12,6 +12,6 @@ import java.util.List;
 public interface ParcelaMapper {
 
     ParcelaMapper INSTANCE = Mappers.getMapper(ParcelaMapper.class);
-    @Mapping(source = "vencimento",target = "dataVencimento",dateFormat = "dd/MM/yyyy")
-    List<BorderoProto.Parcela> toItensParcela(List<Itens> itens);
+    @Mapping(target = "datavencimento", source = "vencimento",dateFormat = "dd/MM/yyyy")
+    BorderoProto.Parcela toItensParcela(Itens itens);
 }

@@ -19,12 +19,7 @@ public class KafkaProtobufService {
     private final KafkaTemplate<String, BorderoProto.Bordero> template;
 
     public ResponseEntity<String> sendMessage(Bordero request) {
-        // CONVERTER JSON PARA PROTO USANDO MAPPER
-        BorderoProto.Bordero message = BorderoProto.Bordero
-                .newBuilder(BorderoMapper.INSTANCE.toBorderoProto(request))
-                .addAllParcela(ParcelaMapper.INSTANCE.toItensParcela(request.getItens()))
-                .build();
-
+        BorderoProto.Bordero message = BorderoMapper.INSTANCE.toBorderoProto(request);
         template.send(PROTO_TOPIC, message);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

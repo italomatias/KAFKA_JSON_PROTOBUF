@@ -1,7 +1,6 @@
 package com.italo.kafkawithobjects.resources;
 
 import com.italo.kafkawithobjects.model.Bordero;
-import com.italo.kafkawithobjects.protobuf.BorderoProto;
 import com.italo.kafkawithobjects.service.KafkaJsonService;
 import com.italo.kafkawithobjects.service.KafkaProtobufService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ public class Rest {
     }
 
     @PostMapping("/protobuf")
-    public ResponseEntity<String> protoget (@RequestBody Bordero request){
+    public ResponseEntity<String> protobuf(@RequestBody Bordero request){
         return kafkaProtobufService.sendMessage(request);
     }
 }
