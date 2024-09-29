@@ -26,9 +26,9 @@ public class ProtoProducerConfig {
         config.put("bootstrap.servers", props.getBootstrapServers());
         config.put("Key.serializer", StringSerializer.class);
         config.put("Value.serializer", KafkaProtobufSerializer.class);
-        config.put("delivery.timeout.ms",30000 ); // REDUZIDO TIMEOUT AO MANDAR MSGS PARA FACILITAR TESTES
-        config.put("default.api.timeout.ms",30000); // REDUZIDO TIMEOUT AO TENTAR CONECTAR NO TOPICO PARA FACILITAR TESTES
-        config.put("schema.registry.url","http://127.0.0.1:8081"); // NAO PODE COLOCAR LOCALHOST
+        config.put("delivery.timeout.ms", 30000); // REDUZIDO TIMEOUT AO MANDAR MSGS PARA FACILITAR TESTES
+        config.put("default.api.timeout.ms", 30000); // REDUZIDO TIMEOUT AO TENTAR CONECTAR NO TOPICO PARA FACILITAR TESTES
+        config.put("schema.registry.url", "http://localhost:8081"); // OBRIGATORIO COLOCAR HTTP://
         config.put("auto.register.schemas", true);
 
         return new DefaultKafkaProducerFactory(

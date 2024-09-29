@@ -17,12 +17,12 @@ public class Rest {
     private final KafkaProtobufService kafkaProtobufService;
 
     @PostMapping("/json")
-    public ResponseEntity<String> json (@RequestBody Bordero request){
+    public ResponseEntity<String> json(@RequestBody Bordero request) {
         return kafkaJsonService.sendMessage(request);
     }
 
     @PostMapping("/protobuf")
-    public ResponseEntity<String> protobuf(@RequestBody Bordero request){
+    public ResponseEntity<String> protobuf(@RequestBody Bordero request) {
         return kafkaProtobufService.sendMessage(request);
     }
 }

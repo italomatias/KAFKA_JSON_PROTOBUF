@@ -1,7 +1,11 @@
 package com.italo.kafkawithobjects.config;
 
+import com.google.protobuf.Message;
+import com.italo.kafkawithobjects.mapper.BorderoMapper;
+import com.italo.kafkawithobjects.protobuf.BorderoProto;
+import io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializer;
+import io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializerConfig;
 import lombok.RequiredArgsConstructor;
-
 import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +18,8 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.converter.JsonMessageConverter;
+import org.springframework.kafka.support.converter.RecordMessageConverter;
+import org.springframework.messaging.converter.ProtobufMessageConverter;
 import org.springframework.util.backoff.BackOff;
 import org.springframework.util.backoff.FixedBackOff;
 
@@ -24,7 +30,7 @@ import java.util.HashMap;
 @Configuration
 @RequiredArgsConstructor
 @Log4j2
-public class JsonConsumerConfig {
+public class ProtobuferConsumerConfig {
 
     @Value(value = "${jsonconsumer.interval.retry}")
     private Long interval;
@@ -35,27 +41,28 @@ public class JsonConsumerConfig {
     private final KafkaProperties props;
 
     @Bean
-    public ConsumerFactory<String, Object> jsonConsumerFactory() {
+    public ConsumerFactory<String, Object> protoConsumerFactory() {
         HashMap<String, Object> config = new HashMap<>();
         config.put("bootstrap.servers", props.getBootstrapServers());
         config.put("key.deserializer", StringDeserializer.class);
-        config.put("value.deserializer", StringDeserializer.class);
+        config.put("value.deserializer", KafkaProtobufDeserializer.class);
         config.put("auto.offset.reset", "earliest"); // INICIAR PROCESSAMENTO DO PRIMEIRO OFFSET
         config.put("AckMode", ContainerProperties.AckMode.RECORD); //FORÇA A NOTIFICAÇÃO DO CONSUMO POR CADA MSG PROCESSADA
+        config.put("schema.registry.url", "http://localhost:8081"); // OBRIGATORIO COLOCAR HTTP://
+        config.put("specific.protobuf.value.type", BorderoProto.Bordero.class.getName()); // ADICIONADO OBJETO PROTOBUF QUE SERÁ RECEBIDO A MSG
         return new DefaultKafkaConsumerFactory<>(config);
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Object> jsonListenerFactory() {
-        var factory = new ConcurrentKafkaListenerContainerFactory<String, Object>();
-        factory.setConsumerFactory(jsonConsumerFactory());
-        factory.setRecordMessageConverter(new JsonMessageConverter()); // TODAS AS MSG SERAO CONVERTIDAS EM JSON
-        factory.setCommonErrorHandler(jsonConsumerErrorHandler()); // DEFINE HANDLER QUE VAI TRATAR OS ERROS DESSE LISTENER
+    public ConcurrentKafkaListenerContainerFactory<String, BorderoProto.Bordero> protoListenerFactory() {
+        var factory = new ConcurrentKafkaListenerContainerFactory<String, BorderoProto.Bordero>();
+        factory.setConsumerFactory(protoConsumerFactory());
+        factory.setCommonErrorHandler(protoConsumerErrorHandler()); // DEFINE HANDLER QUE VAI TRATAR OS ERROS DESSE LISTENER
         return factory;
     }
 
     @Bean
-    public DefaultErrorHandler jsonConsumerErrorHandler() {
+    public DefaultErrorHandler protoConsumerErrorHandler() {
 
         // DEFINE O TEMPO EM MS ANTES DE TENTAR REPROCESSAR A MSG E A QTD DE VEZES
         BackOff fixedBackOff = new FixedBackOff(interval, maxAttempts);

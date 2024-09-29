@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
 import java.io.Serializable;
 
 
@@ -35,9 +36,8 @@ public class KafkaJsonService {
                         }
                     }
             );
-        }
-        catch (Exception e) {
-            log.error("ERRO AO ENVAR MENSAGEM.",e);
+        } catch (Exception e) {
+            log.error("ERRO AO ENVAR MENSAGEM.", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getCause().getMessage());
         }
         return ResponseEntity

@@ -21,14 +21,14 @@ public class KafkaConfig {
     public final KafkaProperties props;
 
     @Bean
-    public KafkaAdmin kafkaAdmin(){
-        HashMap<String,Object> config = new HashMap<String,Object>();
+    public KafkaAdmin kafkaAdmin() {
+        HashMap<String, Object> config = new HashMap<String, Object>();
         config.put("bootstrap.servers", props.getBootstrapServers());
         return new KafkaAdmin(config);
     }
 
     @Bean
-    public KafkaAdmin.NewTopics newTopicJson(){
+    public KafkaAdmin.NewTopics newTopicJson() {
         return new KafkaAdmin.NewTopics(
                 TopicBuilder.name(JSON_TOPIC)
                         .partitions(2)
@@ -37,7 +37,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaAdmin.NewTopics newTopicProto(){
+    public KafkaAdmin.NewTopics newTopicProto() {
         return new KafkaAdmin.NewTopics(
                 TopicBuilder.name(PROTO_TOPIC)
                         .partitions(2)
